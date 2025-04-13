@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 // Import Swiper React components
@@ -8,15 +7,21 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
+import ErrorAlert from "../ErrorAlert";
+import apiClient from "../../services/api-client";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    axios
-      .get("https://phimart-e.vercel.app/api/v1/products/")
+    setIsLoading(true);
+    apiClient
+      .get("/products/")
       .then((res) => setProducts(res.data.results))
-      .catch((err) => console.log(err));
+      .catch((err) => setError(err.message))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
@@ -30,26 +35,43 @@ const Product = () => {
             View All
           </button>
         </div>
-        <Swiper
-          spaceBetween={10}
-          autoplay={{
-            delay: 6000,
-            disableOnInteraction: false,
-          }}
-          navigation={true}
-          modules={[Autoplay, Navigation]}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id}>
-              <ProductItem product={product} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {/* Loading  */}
+        {!error && isLoading && (
+          <div className="text-center py-10">
+            <span className="loading loading-spinner loading-xl text-secondary"></span>
+          </div>
+        )}
+        {/* If error happen */}
+        {error && <ErrorAlert error={error} />}
+
+        {!isLoading && !error && products.length > 0 && (
+          <Swiper
+            spaceBetween={10}
+            autoplay={{
+              delay: 6000,
+              disableOnInteraction: false,
+            }}
+            navigation={true}
+            modules={[Autoplay, Navigation]}
+            slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id}>
+                <ProductItem product={product} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+        {/* if no product available */}
+        {!isLoading && !error && products.length === 0 && (
+          <h3 className="text-center text-2xl text-shadow-pink-500">
+            No products available!
+          </h3>
+        )}
       </div>
     </div>
   );
