@@ -2,13 +2,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import bgImg from "../../assets/images/banner-image-bg.jpg";
+import bgImg from "../../../assets/images/banner-image-bg.jpg";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import CarouselSlide from "./CarouselSlide";
-import bookImg1 from "../../assets/images/banner-image2.png";
-import bookImg2 from "../../assets/images/banner-image1.png";
-import bookImg3 from "../../assets/images/banner-image.png";
+import bookImg1 from "../../../assets/images/banner-image2.png";
+import bookImg2 from "../../../assets/images/banner-image1.png";
+import bookImg3 from "../../../assets/images/banner-image.png";
 
 const HeroCarousel = () => {
   const slides = [

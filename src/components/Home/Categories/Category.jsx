@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import apiClient from "../../services/api-client";
+import apiClient from "../../../services/api-client";
 import CategoryItems from "./CategoryItems";
-import ErrorAlert from "../ErrorAlert";
+import ErrorAlert from "../../ErrorAlert";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
