@@ -5,6 +5,8 @@ const FilterSection = ({
   handlePriceChange,
   categories,
   handleCategoryChange,
+  searchQuery,
+  handleSearchQuery,
 }) => {
   return (
     <section>
@@ -95,6 +97,8 @@ const FilterSection = ({
             id="search"
             type="text"
             placeholder="Search books..."
+            value={searchQuery}
+            onChange={(e) => handleSearchQuery(e.target.value)}
             className="input input-secondary p-2 rounded-lg w-full"
           />
         </div>
