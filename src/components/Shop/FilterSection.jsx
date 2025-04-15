@@ -1,6 +1,11 @@
 import React from "react";
 
-const FilterSection = ({ priceRange, handlePriceChange }) => {
+const FilterSection = ({
+  priceRange,
+  handlePriceChange,
+  categories,
+  handleCategoryChange,
+}) => {
   return (
     <section>
       <h1 className="text-2xl md:text-4xl font-semibold mt-6">
@@ -69,10 +74,15 @@ const FilterSection = ({ priceRange, handlePriceChange }) => {
             className="w-full rounded-lg select select-secondary p-2"
             id="category"
             defaultValue="Select a category"
+            onChange={(e) => handleCategoryChange(e.target.value)}
           >
             <option disabled={true}>Select a category</option>
-            <option value="1">Book</option>
-            <option value="2">Fashion</option>
+            <option value="">All</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="shadow rounded-lg p-5">
