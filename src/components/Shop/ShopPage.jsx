@@ -6,21 +6,28 @@ import FilterSection from "./FilterSection";
 
 const ShopPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { isLoading, products, totalPages } = useFetchProducts(currentPage);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const { isLoading, products, totalPages } = useFetchProducts(
+    currentPage,
+    priceRange
+  );
 
-  // if loading
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen py-10">
-        <span className="loading loading-spinner loading-xl text-secondary"></span>
-      </div>
-    );
-  }
+  const handlePriceChange = (index, value) => {
+    setPriceRange((prev) => {
+      const newRange = [...prev];
+      newRange[index] = value;
+      return newRange;
+    });
+    setCurrentPage(1);
+  };
 
   return (
     <div className="max-w-[1400px] mx-auto px-4">
-      <FilterSection />
-      <ProductList products={products} />
+      <FilterSection
+        priceRange={priceRange}
+        handlePriceChange={handlePriceChange}
+      />
+      <ProductList products={products} isLoading={isLoading} />
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

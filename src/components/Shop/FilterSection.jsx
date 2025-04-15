@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilterSection = () => {
+const FilterSection = ({ priceRange, handlePriceChange }) => {
   return (
     <section>
       <h1 className="text-2xl md:text-4xl font-semibold mt-6">
@@ -19,16 +19,44 @@ const FilterSection = () => {
                 className="py-2 pl-2 pr-4 w-18 sm:w-22 input input-secondary mb-1 rounded-lg"
                 type="number"
                 id="price"
+                min="0"
+                max={priceRange[1]}
+                value={priceRange[0]}
+                onChange={(e) => handlePriceChange(0, Number(e.target.value))}
               />
-              <input className="w-full range range-primary" type="range" />
+              <input
+                className="w-full range range-primary"
+                type="range"
+                min="0"
+                max={priceRange[1]}
+                step="5"
+                value={priceRange[0]}
+                onChange={(e) => handlePriceChange(0, Number(e.target.value))}
+              />
             </div>
           </div>
           <div className="flex gap-2 items-center">
             <input
               className="py-2 pl-2 pr-4 w-18 sm:w-22 input input-secondary rounded-lg"
               type="number"
+              min={priceRange[0]}
+              max="1000"
+              value={priceRange[1]}
+              onChange={(e) => handlePriceChange(1, Number(e.target.value))}
             />
-            <input className="w-full range range-primary" type="range" />
+            <input
+              className="w-full range range-primary"
+              type="range"
+              min={priceRange[0]}
+              max="1000"
+              value={priceRange[1]}
+              step="5"
+              onChange={(e) => handlePriceChange(1, Number(e.target.value))}
+            />
+          </div>
+          <div className="flex justify-between gap-2 mt-2">
+            <h4 className="text-md">${priceRange[0]}</h4>
+            <h4 className="text-md">${priceRange[1]}</h4>
           </div>
         </div>
         <div className="shadow rounded-lg p-5">
