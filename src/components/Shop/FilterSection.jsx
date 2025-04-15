@@ -7,6 +7,7 @@ const FilterSection = ({
   handleCategoryChange,
   searchQuery,
   handleSearchQuery,
+  handleSortOrder,
 }) => {
   return (
     <section>
@@ -78,8 +79,7 @@ const FilterSection = ({
             defaultValue="Select a category"
             onChange={(e) => handleCategoryChange(e.target.value)}
           >
-            <option disabled={true}>Select a category</option>
-            <option value="">All</option>
+            <option value="">Select a category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
@@ -112,10 +112,11 @@ const FilterSection = ({
             className="w-full rounded-lg select select-secondary p-2"
             id="sort-by"
             defaultValue="Default"
+            onChange={(e) => handleSortOrder(e.target.value)}
           >
-            <option disabled={true}>Default</option>
-            <option value="1">Book</option>
-            <option value="2">Fashion</option>
+            <option value="">Default</option>
+            <option value="price">Price: Low To High</option>
+            <option value="-price">Price: High To Low</option>
           </select>
         </div>
       </div>
