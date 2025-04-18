@@ -11,6 +11,21 @@ import { VscListUnordered } from "react-icons/vsc";
 import { Link } from "react-router";
 
 const Sidebar = ({ openSidebar }) => {
+  const menuItems = [
+    { to: "/dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
+    { to: "/products", icon: FiPackage, label: "Products" },
+    { to: "/products/add", icon: MdLibraryAdd, label: "Add Product" },
+    { to: "/categories", icon: MdCategory, label: "Categories" },
+    {
+      to: "/categories/add",
+      icon: MdOutlinePlaylistAdd,
+      label: "Add Category",
+    },
+    { to: "/orders", icon: VscListUnordered, label: "Orders" },
+    { to: "/reviews", icon: MdReviews, label: "Reviews" },
+    { to: "/users", icon: FaUsers, label: "Users" },
+  ];
+
   return (
     <div className="drawer-side">
       <label
@@ -18,8 +33,8 @@ const Sidebar = ({ openSidebar }) => {
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
+      {/* Sidebar list here */}
       <ul className="menu bg-base-200 text-base-content min-h-full w-72 p-4">
-        {/* Sidebar content here */}
         <div className="flex justify-between mb-8">
           <h3 className="text-xl font-semibold">
             <Link to="/">PhiMart</Link>
@@ -31,54 +46,16 @@ const Sidebar = ({ openSidebar }) => {
             {openSidebar ? <FiX /> : <FiAlignLeft />}
           </label>
         </div>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <LuLayoutDashboard />
-            <span>Dashboard</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <FiPackage />
-            <span>Products</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <MdLibraryAdd />
-            <span>Add Producs</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <MdCategory />
-            <span>Categories</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <MdOutlinePlaylistAdd />
-            <span>Add Categoies</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <VscListUnordered />
-            <span>Orders</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <MdReviews />
-            <span>Reviews</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="flex items-center gap-2 text-lg">
-            <FaUsers />
-            <span>Users</span>
-          </Link>
-        </li>
+        {/* showing sidebar data using map  */}
+        {menuItems.map((item, index) => (
+          <li key={index}>
+            <Link className="flex items-center gap-2 text-lg">
+              <item.icon />
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        ))}
+
         <p className="absolute bottom-6 left-5">@ 2025 PhiMart Admin</p>
       </ul>
     </div>
