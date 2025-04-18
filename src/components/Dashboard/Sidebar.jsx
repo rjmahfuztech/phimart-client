@@ -49,7 +49,7 @@ const Sidebar = ({ openSidebar }) => {
         {/* showing sidebar data using map  */}
         {menuItems.map((item, index) => (
           <li key={index}>
-            <Link className="flex items-center gap-2 text-lg">
+            <Link to={item.to} className="flex items-center gap-2 text-lg">
               <item.icon />
               <span>{item.label}</span>
             </Link>
