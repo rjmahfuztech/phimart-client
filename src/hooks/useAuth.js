@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import Swal from "sweetalert2";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -12,6 +13,26 @@ const useAuth = () => {
 
   const [authTokens, setAuthTokens] = useState(getToken());
 
+  // Handle API Error
+  const handleApiError = (
+    error,
+    defaultMessage = "Something Went Wrong, Try again!"
+  ) => {
+    let ifError = "";
+    if (error.response && error.response.data) {
+      const errorMessage = Object.values(error.response.data).flat().join("\n");
+      ifError = errorMessage;
+    } else ifError = defaultMessage;
+    if (ifError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${ifError} try again!`,
+      });
+    }
+  };
+
+  // Fetch User Profile
   const fetchUserProfile = async () => {
     try {
       const response = await apiClient.get("/auth/users/me/", {
@@ -22,10 +43,42 @@ const useAuth = () => {
       console.log("User Profile error: ", error.response.data?.detail);
     }
   };
-  // Fetch User Profile
+
   useEffect(() => {
     if (authTokens) fetchUserProfile();
   }, [authTokens]);
+
+  // Update User Profile
+  const updateUserProfile = async (data) => {
+    try {
+      await apiClient.put("/auth/users/me/", data, {
+        headers: { Authorization: `JWT ${authTokens?.access}` },
+      });
+      // Swal.fire({
+      //   title: "Good job!",
+      //   text: "You Profile successfully updated.",
+      //   icon: "success",
+      // });
+    } catch (error) {
+      return handleApiError(error);
+    }
+  };
+
+  // Change Password
+  const changeUserPassword = async (data) => {
+    try {
+      await apiClient.post("/auth/users/set_password/", data, {
+        headers: { Authorization: `JWT ${authTokens?.access}` },
+      });
+      Swal.fire({
+        title: "Good job!",
+        text: "You password successfully changed.",
+        icon: "success",
+      });
+    } catch (error) {
+      return handleApiError(error);
+    }
+  };
 
   // Login User
   const loginUser = async (userData) => {
@@ -57,7 +110,7 @@ const useAuth = () => {
           .flat()
           .join("\n");
         setErrorMsg(errorMessage);
-      } else setErrorMsg("Registration failed, Please try again!");
+      } else setErrorMsg("Registration Failed! Try again.");
     }
   };
 
@@ -68,7 +121,15 @@ const useAuth = () => {
     setAuthTokens(null);
   };
 
-  return { errorMsg, user, loginUser, registerUser, logoutUser };
+  return {
+    errorMsg,
+    user,
+    loginUser,
+    registerUser,
+    logoutUser,
+    updateUserProfile,
+    changeUserPassword,
+  };
 };
 
 export default useAuth;

@@ -18,7 +18,7 @@ const ProfileForm = ({ register, errors, isEditing }) => {
             } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
           />
           {errors.first_name && (
-            <p className="mt-1 text-red-500 font-bold">
+            <p className="mt-1 text-red-500 text-sm font-bold">
               {errors.first_name.message}
             </p>
           )}
@@ -31,7 +31,7 @@ const ProfileForm = ({ register, errors, isEditing }) => {
             id="last_name"
             type="text"
             disabled={!isEditing}
-            {...register("first_name")}
+            {...register("last_name")}
             className={`w-full mt-1 rounded-md bg-base-200 px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 ${
               isEditing ? "outline-gray-300" : "outline-gray-100"
             } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
@@ -47,7 +47,7 @@ const ProfileForm = ({ register, errors, isEditing }) => {
           name="email"
           type="email"
           disabled
-          {...register("first_name")}
+          {...register("email")}
           autoComplete="email"
           className={`w-full mt-1 rounded-md bg-base-200 px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 ${
             isEditing ? "outline-gray-200" : "outline-gray-100"
@@ -62,7 +62,7 @@ const ProfileForm = ({ register, errors, isEditing }) => {
           id="address"
           type="text"
           disabled={!isEditing}
-          {...register("first_name")}
+          {...register("address")}
           className={`w-full mt-1 rounded-md bg-base-200 px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 ${
             isEditing ? "outline-gray-300" : "outline-gray-100"
           } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
@@ -76,7 +76,7 @@ const ProfileForm = ({ register, errors, isEditing }) => {
           id="phone_number"
           type="number"
           disabled={!isEditing}
-          {...register("first_name")}
+          {...register("phone_number")}
           className={`w-full mt-1 rounded-md bg-base-200 px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 ${
             isEditing ? "outline-gray-300" : "outline-gray-100"
           } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}

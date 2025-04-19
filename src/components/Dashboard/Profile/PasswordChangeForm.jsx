@@ -15,21 +15,26 @@ const PasswordChangeForm = ({ register, errors, watch, isEditing }) => {
       {isPasswordSectionOpen && (
         <div>
           <div className="mb-2">
-            <label htmlFor="password" className="font-medium text-gray-900">
+            <label
+              htmlFor="current_password"
+              className="font-medium text-gray-900"
+            >
               Current Password
             </label>
             <input
-              id="password"
+              id="current_password"
               type={showPassword ? "text" : "password"}
               disabled={!isEditing}
-              {...register("password", { required: "Password is required" })}
+              {...register("current_password", {
+                required: "Password is required",
+              })}
               className={`w-full mt-1 rounded-md bg-base-200 px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 ${
                 isEditing ? "outline-gray-300" : "outline-gray-100"
               } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
             />
-            {errors.password && (
-              <p className="mt-1 text-red-500 font-bold">
-                {errors.password.message}
+            {errors.current_password && (
+              <p className="mt-1 text-red-500 text-sm font-bold">
+                {errors.current_password.message}
               </p>
             )}
           </div>
@@ -58,7 +63,7 @@ const PasswordChangeForm = ({ register, errors, watch, isEditing }) => {
                 } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
               />
               {errors.new_password && (
-                <p className="mt-1 text-red-500 font-bold">
+                <p className="mt-1 text-red-500 text-sm font-bold">
                   {errors.new_password.message}
                 </p>
               )}
@@ -84,7 +89,7 @@ const PasswordChangeForm = ({ register, errors, watch, isEditing }) => {
                 } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
               />
               {errors.retype_password && (
-                <p className="mt-1 text-red-500 font-bold">
+                <p className="mt-1 text-red-500 text-sm font-bold">
                   {errors.retype_password.message}
                 </p>
               )}
