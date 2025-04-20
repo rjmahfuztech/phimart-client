@@ -4,10 +4,12 @@ import useAuthContext from "../hooks/useAuthContext";
 import ErrorAlert from "../components/ErrorAlert";
 import { useState } from "react";
 import SuccessAlert from "../components/SuccessAlert";
+import Swal from "sweetalert2";
 
 const Register = () => {
-  const { registerUser, errorMsg } = useAuthContext();
+  const { registerUser, errorMsg, resendUserEmail } = useAuthContext();
   const [successMsg, setSuccessMsg] = useState("");
+  const [resendEmail, setResendEmail] = useState("");
 
   const {
     register,
@@ -26,9 +28,26 @@ const Register = () => {
     } catch (error) {
       console.log("Registration failed", error);
     }
+    // resend email set
+    if (data.email) {
+      setResendEmail(data.email);
+    }
   };
+
+  // Resend Email
+  const handleResendMail = async () => {
+    const response = await resendUserEmail(resendEmail);
+    if (response.success) {
+      Swal.fire({
+        title: "Email Sent",
+        text: `${response.message}`,
+        icon: "success",
+      });
+    }
+  };
+
   return (
-    <div className="h-screen flex items-center -mt-8 px-4">
+    <div className="h-screen flex items-center px-4">
       <div className="card bg-base-100 w-[400px] mx-auto py-10 shadow-lg border border-gray-200">
         <h1 className="text-center text-2xl font-semibold">Sign Up</h1>
         <div className="card-body">
@@ -196,8 +215,15 @@ const Register = () => {
             </div>
             <input type="submit" className="btn btn-primary w-full" />
           </form>
+          <div>
+            {resendEmail && (
+              <button onClick={handleResendMail} className="btn btn-link">
+                Resend Email
+              </button>
+            )}
+          </div>
         </div>
-        <p className="font-semibold text-center mt-3">
+        <p className="font-semibold text-center -mt-4">
           Already have an account?{" "}
           <Link
             className="underline text-primary transition-colors"

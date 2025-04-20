@@ -8,9 +8,11 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "../components/PrivateRoute";
-import ActivateAccount from "../components/Registration/ActivateAccount";
+import ActivateAccount from "../components/Authentication/ActivateAccount";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Profile from "../components/Dashboard/Profile/Profile";
+import ResetPassword from "../components/Authentication/ResetPassword";
+import ResetPasswordConfirm from "../components/Authentication/ResetPasswordConfirm";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +25,11 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
+        <Route path="reset_password" element={<ResetPassword />} />
+        <Route
+          path="password/reset/confirm/:uid/:token"
+          element={<ResetPasswordConfirm />}
+        />
       </Route>
       {/* Private routes  */}
       <Route

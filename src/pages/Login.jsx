@@ -86,6 +86,9 @@ const Login = () => {
                   {errors.password.message}
                 </p>
               )}
+              <Link to="/reset_password" className="btn btn-link -ml-4">
+                Forgot Password
+              </Link>
             </div>
             <button
               type="submit"

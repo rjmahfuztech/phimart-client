@@ -85,8 +85,8 @@ const useAuth = () => {
     setErrorMsg("");
     try {
       const response = await apiClient.post("/auth/jwt/create/", userData);
-      setAuthTokens(response.data);
       localStorage.setItem("authTokens", JSON.stringify(response.data));
+      setAuthTokens(response.data);
       // After login set user
       await fetchUserProfile();
     } catch (error) {
@@ -121,6 +121,54 @@ const useAuth = () => {
     setAuthTokens(null);
   };
 
+  // Resend Email
+  const resendUserEmail = async (email) => {
+    try {
+      await apiClient.post("/auth/users/resend_activation/", {
+        email,
+      });
+      return {
+        success: true,
+        message: "Activation E-mail sent. Please check your mail again.",
+      };
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  // Reset Password
+  const resetPassword = async (email) => {
+    try {
+      await apiClient.post("/auth/users/reset_password/", {
+        email,
+      });
+      return {
+        success: true,
+        message: "We have sent you a password recovery link to your email",
+      };
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  // Forgot Password Confirm
+  const resetPasswordConfirm = async (uid, token, new_password) => {
+    try {
+      await apiClient.post("/auth/users/reset_password_confirm/", {
+        uid,
+        token,
+        new_password,
+      });
+      return {
+        success: true,
+        message: "Your password has been reset successfully!",
+      };
+    } catch (error) {
+      handleApiError(error);
+      console.log(error);
+    }
+  };
+
   return {
     errorMsg,
     user,
@@ -129,6 +177,9 @@ const useAuth = () => {
     logoutUser,
     updateUserProfile,
     changeUserPassword,
+    resendUserEmail,
+    resetPassword,
+    resetPasswordConfirm,
   };
 };
 
