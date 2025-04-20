@@ -5,13 +5,12 @@ import Swal from "sweetalert2";
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const getToken = () => {
+  const [authTokens, setAuthTokens] = useState(() => {
     const token = localStorage.getItem("authTokens");
     return token ? JSON.parse(token) : null;
-  };
-
-  const [authTokens, setAuthTokens] = useState(getToken());
+  });
 
   // Handle API Error
   const handleApiError = (
@@ -34,6 +33,7 @@ const useAuth = () => {
 
   // Fetch User Profile
   const fetchUserProfile = async () => {
+    setLoading(true);
     try {
       const response = await apiClient.get("/auth/users/me/", {
         headers: { Authorization: `JWT ${authTokens?.access}` },
@@ -41,11 +41,18 @@ const useAuth = () => {
       setUser(response.data);
     } catch (error) {
       console.log("User Profile error: ", error.response.data?.detail);
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (authTokens) fetchUserProfile();
+    else {
+      setUser(null);
+      setLoading(false);
+    }
   }, [authTokens]);
 
   // Update User Profile
@@ -87,8 +94,7 @@ const useAuth = () => {
       const response = await apiClient.post("/auth/jwt/create/", userData);
       localStorage.setItem("authTokens", JSON.stringify(response.data));
       setAuthTokens(response.data);
-      // After login set user
-      await fetchUserProfile();
+      return { success: true };
     } catch (error) {
       setErrorMsg(error.response.data?.detail);
     }
@@ -172,6 +178,7 @@ const useAuth = () => {
   return {
     errorMsg,
     user,
+    loading,
     loginUser,
     registerUser,
     logoutUser,
