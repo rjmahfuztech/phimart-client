@@ -24,6 +24,7 @@ const Profile = () => {
   const onSubmit = async (data) => {
     try {
       const profilePayLoad = {
+        email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
         address: data.address,

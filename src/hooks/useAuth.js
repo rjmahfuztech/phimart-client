@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import Swal from "sweetalert2";
+import { Toast } from "../components/SuccessAlert";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -61,11 +62,12 @@ const useAuth = () => {
       await apiClient.put("/auth/users/me/", data, {
         headers: { Authorization: `JWT ${authTokens?.access}` },
       });
-      // Swal.fire({
-      //   title: "Good job!",
-      //   text: "You Profile successfully updated.",
-      //   icon: "success",
-      // });
+      await Toast.fire({
+        icon: "success",
+        title: "Profile data updated",
+        background: "#10B981",
+        color: "#fff",
+      });
     } catch (error) {
       return handleApiError(error);
     }
@@ -79,7 +81,7 @@ const useAuth = () => {
       });
       Swal.fire({
         title: "Good job!",
-        text: "You password successfully changed.",
+        text: "Your password successfully changed.",
         icon: "success",
       });
     } catch (error) {
