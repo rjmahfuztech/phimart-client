@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [authTokens, setAuthTokens] = useState(() => {
     const token = localStorage.getItem("authTokens");
