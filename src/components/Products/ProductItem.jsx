@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import defaultImg from "../../assets/default-img.jpeg";
 
 const ProductItem = ({ product }) => {
@@ -15,7 +16,9 @@ const ProductItem = ({ product }) => {
         <h3 className="text-xl text-red-500 font-bold">{product.price}</h3>
         <p>{product.description}</p>
         <div className="card-actions">
-          <button className="btn btn-primary">Buy Now</button>
+          <Link to={`/shop/${product.id}`} className="btn btn-primary">
+            Buy Now
+          </Link>
         </div>
       </div>
     </div>

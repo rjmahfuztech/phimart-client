@@ -6,3 +6,15 @@
 .swiper-button-prev {
   color: black !important;
 }
+
+/* Product Detail  */
+.product-detail .swiper-button-next,
+.product-detail .swiper-button-prev {
+  color: white !important;
+}
+.product-detail .mySwiper .swiper-slide {
+  opacity: 0.4;
+}
+.product-detail .mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
