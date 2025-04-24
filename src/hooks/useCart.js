@@ -36,7 +36,21 @@ const useCart = () => {
     [cartId, createOrGetCart]
   );
 
-  return { createOrGetCart, cart, addCartItems };
+  // Update cart item quantity
+  const updateCartItemQuantity = useCallback(
+    async (itemId, quantity) => {
+      try {
+        await authApiClient.patch(`/carts/${cartId}/items/${itemId}/`, {
+          quantity,
+        });
+      } catch (error) {
+        console.log("Error! updating cart item:", error);
+      }
+    },
+    [cartId]
+  );
+
+  return { createOrGetCart, cart, addCartItems, updateCartItemQuantity };
 };
 
 export default useCart;
