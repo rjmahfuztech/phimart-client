@@ -21,9 +21,9 @@ const CartItemList = ({
       {items.map((item) => (
         <div
           key={item.id}
-          className="grid grid-cols-5 gap-2 shadow-sm p-3 mb-2 border border-gray-100 bg-base-100"
+          className="grid grid-cols-3 md:grid-cols-5 gap-2 shadow-sm p-3 mb-2 border border-gray-100 bg-base-100 rounded-lg"
         >
-          <div className="col-span-3">
+          <div className="col-span-2">
             <div>
               <h1>{item.product.name}</h1>
             </div>
@@ -36,7 +36,11 @@ const CartItemList = ({
             />
           </div>
           <div>
-            <div className="flex justify-end items-center gap-2">
+            <h3 className="font-semibold">Total</h3>
+            <h1>${item.total_price}</h1>
+          </div>
+          <div className="col-start-2 col-span-2 md:col-span-1">
+            <div className="flex mt-2 md:mt-0 justify-center md:justify-end items-center gap-2">
               <button
                 onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                 className="btn btn-outline h-7 hover:bg-gray-300 text-gray-700 rounded-md p-1 transition duration-150"

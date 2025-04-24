@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useCartContext from "../hooks/useCartContext";
 import CartItemList from "../components/Cart/CartItemList";
+import CartSummary from "../components/Cart/CartSummary";
 
 const Cart = () => {
   const { cart, createOrGetCart, updateCartItemQuantity, DeleteCartItems } =
@@ -47,7 +48,7 @@ const Cart = () => {
 
   if (!localCart) return <p className="text-center">Loading...</p>;
   return (
-    <div className="grid grid-cols-3 gap-4 p-2 my-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 px-4 my-4">
       <div className="col-span-2">
         <CartItemList
           items={localCart.items}
@@ -55,7 +56,12 @@ const Cart = () => {
           handleDeleteCartItem={handleDeleteCartItem}
         />
       </div>
-      <div>total calculation</div>
+      <div>
+        <CartSummary
+          totalPrice={localCart.total_price}
+          itemCount={localCart.items.length}
+        />
+      </div>
     </div>
   );
 };
