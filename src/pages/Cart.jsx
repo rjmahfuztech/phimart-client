@@ -3,7 +3,8 @@ import useCartContext from "../hooks/useCartContext";
 import CartItemList from "../components/Cart/CartItemList";
 
 const Cart = () => {
-  const { cart, createOrGetCart, updateCartItemQuantity } = useCartContext();
+  const { cart, createOrGetCart, updateCartItemQuantity, DeleteCartItems } =
+    useCartContext();
   const [localCart, setLocalCart] = useState(cart);
 
   useEffect(() => {
@@ -14,10 +15,12 @@ const Cart = () => {
     setLocalCart(cart);
   }, [cart]);
 
+  // update cart quantity
   const handleUpdateQuantity = async (itemId, newQuantity) => {
-    setLocalCart((prevCart) => ({
-      ...prevCart,
-      items: prevCart.items.map((item) =>
+    const prevLocalCartCopy = localCart; // store a copy of previous localCart
+    setLocalCart((prevLocalCart) => ({
+      ...prevLocalCart,
+      items: prevLocalCart.items.map((item) =>
         item.id === itemId ? { ...item, quantity: newQuantity } : item
       ),
     }));
@@ -25,8 +28,23 @@ const Cart = () => {
       await updateCartItemQuantity(itemId, newQuantity);
     } catch (error) {
       console.log(error);
+      setLocalCart(prevLocalCartCopy); // Rollback to previous state if API fails
     }
   };
+
+  // delete cart item
+  const handleDeleteCartItem = async (itemId) => {
+    setLocalCart((prevLocalCart) => ({
+      ...prevLocalCart,
+      items: prevLocalCart.items.filter((item) => item.id !== itemId),
+    }));
+    try {
+      await DeleteCartItems(itemId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!localCart) return <p className="text-center">Loading...</p>;
   return (
     <div className="grid grid-cols-3 gap-4 p-2 my-4">
@@ -34,6 +52,7 @@ const Cart = () => {
         <CartItemList
           items={localCart.items}
           handleUpdateQuantity={handleUpdateQuantity}
+          handleDeleteCartItem={handleDeleteCartItem}
         />
       </div>
       <div>total calculation</div>

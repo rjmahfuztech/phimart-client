@@ -2,22 +2,38 @@ import React from "react";
 import { CiSquareMinus, CiSquarePlus } from "react-icons/ci";
 import { IoTrashOutline } from "react-icons/io5";
 
-const CartItemList = ({ items, handleUpdateQuantity }) => {
+const CartItemList = ({
+  items,
+  handleUpdateQuantity,
+  handleDeleteCartItem,
+}) => {
+  // checking if cart is empty
+  if (items.length === 0) {
+    return (
+      <p className="text-center font-semibold text-gray-400 text-lg">
+        Your cart is empty!
+      </p>
+    );
+  }
+
   return (
     <>
       {items.map((item) => (
         <div
           key={item.id}
-          className="grid grid-cols-3 gap-2 shadow-sm p-3 mb-2 border border-gray-100 bg-base-100"
+          className="grid grid-cols-5 gap-2 shadow-sm p-3 mb-2 border border-gray-100 bg-base-100"
         >
-          <div className="col-span-2">
-            <div className="flex justify-between gap-2">
+          <div className="col-span-3">
+            <div>
               <h1>{item.product.name}</h1>
-              <div>
-                <h1>${item.product.price}</h1>
-                <IoTrashOutline className="size-6 text-red-400 hover:text-red-600 transition-colors cursor-pointer mt-2 ml-2" />
-              </div>
             </div>
+          </div>
+          <div>
+            <h1>${item.product.price}</h1>
+            <IoTrashOutline
+              onClick={() => handleDeleteCartItem(item.id)}
+              className="size-6 text-red-400 hover:text-red-600 transition-colors cursor-pointer mt-2 ml-2"
+            />
           </div>
           <div>
             <div className="flex justify-end items-center gap-2">
