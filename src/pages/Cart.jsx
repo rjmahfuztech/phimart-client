@@ -1,9 +1,13 @@
-import React from "react";
-// import useCartContext from "../hooks/useCartContext";
+import React, { useEffect } from "react";
+import useCartContext from "../hooks/useCartContext";
 
 const Cart = () => {
-  //   const { cart } = useCartContext();
-  //   console.log(cart);
+  const { createOrGetCart } = useCartContext();
+
+  useEffect(() => {
+    createOrGetCart();
+    console.log("create or get");
+  }, [createOrGetCart]);
 
   return <div>this is cart page</div>;
 };
