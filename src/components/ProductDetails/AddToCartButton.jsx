@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { CiSquareMinus, CiSquarePlus } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa";
+import useCartContext from "../../hooks/useCartContext";
 
 const AddToCartButton = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const { addCartItems } = useCartContext();
 
-  const addToCart = () => {
-    // Simulating api call
+  const addToCart = async () => {
     setIsAdding(true);
-    setTimeout(() => {
-      setIsAdding(false);
+    try {
+      await addCartItems(product.id, quantity);
       setIsAdded(true);
-
-      setTimeout(() => {
-        setIsAdded(false);
-      }, 2000);
-    }, 1000);
+      setIsAdding(false);
+    } catch (err) {
+      console.log(err);
+      setIsAdded(false);
+    }
+    // Simulating api call
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   };
   return (
     <div className="md:absolute mt-10 bottom-0">
