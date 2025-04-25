@@ -4,13 +4,8 @@ import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
 
 const Cart = () => {
-  const { cart, createOrGetCart, updateCartItemQuantity, DeleteCartItems } =
-    useCartContext();
+  const { cart, updateCartItemQuantity, DeleteCartItems } = useCartContext();
   const [localCart, setLocalCart] = useState(cart);
-
-  useEffect(() => {
-    createOrGetCart();
-  }, [createOrGetCart]);
 
   useEffect(() => {
     setLocalCart(cart);
@@ -19,12 +14,26 @@ const Cart = () => {
   // update cart quantity
   const handleUpdateQuantity = async (itemId, newQuantity) => {
     const prevLocalCartCopy = localCart; // store a copy of previous localCart
-    setLocalCart((prevLocalCart) => ({
-      ...prevLocalCart,
-      items: prevLocalCart.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      ),
-    }));
+    setLocalCart((prevLocalCart) => {
+      const updatedItems = prevLocalCart.items.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              quantity: newQuantity,
+              total_price: item.product.price * newQuantity,
+            }
+          : item
+      );
+
+      return {
+        ...prevLocalCart,
+        items: updatedItems,
+        total_price: updatedItems.reduce(
+          (sum, item) => sum + item.total_price,
+          0
+        ),
+      };
+    });
     try {
       await updateCartItemQuantity(itemId, newQuantity);
     } catch (error) {
@@ -35,10 +44,20 @@ const Cart = () => {
 
   // delete cart item
   const handleDeleteCartItem = async (itemId) => {
-    setLocalCart((prevLocalCart) => ({
-      ...prevLocalCart,
-      items: prevLocalCart.items.filter((item) => item.id !== itemId),
-    }));
+    setLocalCart((prevLocalCart) => {
+      const updatedItems = prevLocalCart.items.filter(
+        (item) => item.id !== itemId
+      );
+
+      return {
+        ...prevLocalCart,
+        items: updatedItems,
+        total_price: updatedItems.reduce(
+          (sum, item) => sum + item.total_price,
+          0
+        ),
+      };
+    });
     try {
       await DeleteCartItems(itemId);
     } catch (error) {

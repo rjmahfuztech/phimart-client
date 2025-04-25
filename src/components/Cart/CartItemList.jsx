@@ -29,7 +29,7 @@ const CartItemList = ({
             </div>
           </div>
           <div>
-            <h1>${item.product.price}</h1>
+            <h1>${item.product.price.toFixed(2)}</h1>
             <IoTrashOutline
               onClick={() => handleDeleteCartItem(item.id)}
               className="size-6 text-red-400 hover:text-red-600 transition-colors cursor-pointer mt-2 ml-2"
@@ -37,7 +37,7 @@ const CartItemList = ({
           </div>
           <div>
             <h3 className="font-semibold">Total</h3>
-            <h1>${item.total_price}</h1>
+            <h1>${item.total_price.toFixed(2)}</h1>
           </div>
           <div className="col-start-2 col-span-2 md:col-span-1">
             <div className="flex mt-2 md:mt-0 justify-center md:justify-end items-center gap-2">
