@@ -125,6 +125,7 @@ const useAuth = () => {
   // LogoutUser User
   const logoutUser = () => {
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("cartId");
     setUser(null);
     setAuthTokens(null);
   };
