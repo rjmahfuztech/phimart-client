@@ -7,6 +7,7 @@ import {
   MdOutlinePlaylistAdd,
   MdReviews,
 } from "react-icons/md";
+import { RiShoppingCartLine } from "react-icons/ri";
 import { VscListUnordered } from "react-icons/vsc";
 import { Link } from "react-router";
 
@@ -21,7 +22,8 @@ const Sidebar = ({ openSidebar }) => {
       icon: MdOutlinePlaylistAdd,
       label: "Add Category",
     },
-    { to: "/orders", icon: VscListUnordered, label: "Orders" },
+    { to: "/dashboard/cart", icon: RiShoppingCartLine, label: "Cart" },
+    { to: "/dashboard/orders", icon: VscListUnordered, label: "Orders" },
     { to: "/reviews", icon: MdReviews, label: "Reviews" },
     { to: "/users", icon: FaUsers, label: "Users" },
   ];
