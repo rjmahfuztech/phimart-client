@@ -1,6 +1,10 @@
 import { FiAlignLeft, FiX } from "react-icons/fi";
+import { Link } from "react-router";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const DashboardNavbar = ({ openSidebar }) => {
+  const { logoutUser } = useAuthContext();
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
@@ -32,16 +36,16 @@ const DashboardNavbar = ({ openSidebar }) => {
           className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
         >
           <li>
-            <a className="justify-between">
+            <Link to="/dashboard/profile" className="justify-between">
               Profile
               <span className="badge">New</span>
-            </a>
+            </Link>
           </li>
           <li>
             <a>Settings</a>
           </li>
           <li>
-            <a>Logout</a>
+            <a onClick={logoutUser}>Logout</a>
           </li>
         </ul>
       </div>

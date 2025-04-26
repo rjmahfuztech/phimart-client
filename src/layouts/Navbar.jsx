@@ -49,9 +49,11 @@ const Navbar = () => {
             <li>
               <Link to="/shop">Shop</Link>
             </li>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
+            {user && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -79,9 +81,11 @@ const Navbar = () => {
           <li>
             <Link to="/shop">Shop</Link>
           </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
+          {user && (
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+          )}
         </ul>
       </div>
       <div className="navbar-end">
