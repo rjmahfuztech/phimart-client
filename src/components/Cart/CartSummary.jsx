@@ -1,7 +1,24 @@
-const CartSummary = ({ totalPrice, itemCount }) => {
+import authApiClient from "../../services/auth-api-client";
+
+const CartSummary = ({ totalPrice, itemCount, cartId }) => {
   const shipping = itemCount == 0 || parseFloat(totalPrice) > 180 ? 0 : 15;
   const tax = parseFloat(totalPrice) * 0.05;
   const calculateTotal = parseFloat(totalPrice) + shipping + tax;
+
+  // Checkout cart to order
+  const createOrder = async () => {
+    try {
+      await authApiClient.post("/orders/", {
+        cart_id: cartId,
+      });
+      // delete cart after checkout the cart
+      localStorage.removeItem("cartId");
+      alert("Successful");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="shadow-sm px-4 py-6 border border-gray-100 bg-base-100 rounded-lg mt-4 md:mt-0">
       <h1 className="text-xl md:text-2xl font-bold">Order Summary</h1>
@@ -23,7 +40,11 @@ const CartSummary = ({ totalPrice, itemCount }) => {
         <p className="font-semibold text-lg">Order Total</p>
         <span className="font-bold">${calculateTotal.toFixed(2)}</span>
       </div>
-      <button className="btn btn-primary w-full mt-2">
+      <button
+        disabled={itemCount == 0}
+        onClick={createOrder}
+        className="btn btn-primary w-full mt-2"
+      >
         Proceed To Checkout
       </button>
     </div>

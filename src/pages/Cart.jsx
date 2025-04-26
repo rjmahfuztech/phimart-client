@@ -4,8 +4,13 @@ import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
 
 const Cart = () => {
-  const { cart, createOrGetCart, updateCartItemQuantity, DeleteCartItems } =
-    useCartContext();
+  const {
+    cart,
+    cartId,
+    createOrGetCart,
+    updateCartItemQuantity,
+    DeleteCartItems,
+  } = useCartContext();
   const [localCart, setLocalCart] = useState(cart);
 
   useEffect(() => {
@@ -84,6 +89,7 @@ const Cart = () => {
         <CartSummary
           totalPrice={localCart.total_price}
           itemCount={localCart.items.length}
+          cartId={cartId}
         />
       </div>
     </div>
