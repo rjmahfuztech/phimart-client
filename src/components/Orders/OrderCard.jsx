@@ -1,9 +1,25 @@
-import React from "react";
+import { useState } from "react";
 import OrderTable from "./OrderTable";
 import useAuthContext from "../../hooks/useAuthContext";
+import authApiClient from "../../services/auth-api-client";
 
 const OrderCard = ({ order, handleCancelOrder }) => {
   const { user } = useAuthContext();
+  const [status, setStatus] = useState(order.status);
+
+  const handleChangeStatus = async (event) => {
+    const newStatus = event.target.value;
+    try {
+      const response = await authApiClient.patch(
+        `/orders/${order.id}/update_status/`,
+        { status: newStatus }
+      );
+      console.log(response);
+      if (response.status === 200) setStatus(newStatus);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="shadow-lg rounded-lg bg-white border border-gray-100 my-6">
@@ -13,29 +29,59 @@ const OrderCard = ({ order, handleCancelOrder }) => {
           <p className="text-gray-400">Date</p>
         </div>
         <div className="flex gap-2 items-center mt-2 md:mt-0">
-          <p
-            className={`${
-              order.status == "Not Paid"
-                ? "bg-warning"
-                : `${
-                    order.status == "Canceled"
-                      ? "bg-red-500"
-                      : `${
-                          order.status == "Delivered" ? "bg-success" : "bg-info"
-                        }`
-                  }`
-            } py-1 px-4 rounded-full font-semibold text-white`}
-          >
-            {order.status}
-          </p>
-          {order.status !== "Delivered" && order.status !== "Canceled" && (
-            <button
-              onClick={() => handleCancelOrder(order.id)}
-              className="btn btn-link text-lg"
+          {user.is_staff ? (
+            <select
+              value={status}
+              onChange={handleChangeStatus}
+              className={`${
+                status == "Not Paid"
+                  ? "bg-warning select-warning"
+                  : `${
+                      status == "Canceled"
+                        ? "bg-red-500 select-error"
+                        : `${
+                            status == "Delivered"
+                              ? "bg-success select-success"
+                              : "bg-info select-info"
+                          }`
+                    }`
+              } rounded-full font-semibold text-white select`}
             >
-              Cancel
-            </button>
+              <option value="Not Paid">Not Paid</option>
+              <option value="Ready To Ship">Ready To Ship</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Canceled">Canceled</option>
+            </select>
+          ) : (
+            <p
+              className={`${
+                order.status == "Not Paid"
+                  ? "bg-warning"
+                  : `${
+                      order.status == "Canceled"
+                        ? "bg-red-500"
+                        : `${
+                            order.status == "Delivered"
+                              ? "bg-success"
+                              : "bg-info"
+                          }`
+                    }`
+              } py-1 px-4 rounded-full font-semibold text-white`}
+            >
+              {order.status}
+            </p>
           )}
+          {order.status !== "Delivered" &&
+            order.status !== "Canceled" &&
+            !user.is_staff && (
+              <button
+                onClick={() => handleCancelOrder(order.id)}
+                className="btn btn-link text-lg"
+              >
+                Cancel
+              </button>
+            )}
         </div>
       </div>
       <div className="p-3 md:p-6">
