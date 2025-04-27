@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import authApiClient from "../services/auth-api-client";
+import Swal from "sweetalert2";
 
 const useCart = () => {
   const [cart, setCart] = useState(null);
@@ -28,7 +29,15 @@ const useCart = () => {
           product_id,
           quantity,
         });
-        console.log(response.data);
+        if (response.status === 201) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added to cart successful.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
         return response.data;
       } catch (error) {
         console.log(error);
@@ -56,6 +65,7 @@ const useCart = () => {
     async (itemId) => {
       try {
         await authApiClient.delete(`/carts/${cartId}/items/${itemId}/`);
+        return { success: true };
       } catch (error) {
         console.log(error);
       }

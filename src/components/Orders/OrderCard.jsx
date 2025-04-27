@@ -2,6 +2,7 @@ import { useState } from "react";
 import OrderTable from "./OrderTable";
 import useAuthContext from "../../hooks/useAuthContext";
 import authApiClient from "../../services/auth-api-client";
+import { Toast } from "../SuccessAlert";
 
 const OrderCard = ({ order, handleCancelOrder }) => {
   const { user } = useAuthContext();
@@ -15,7 +16,15 @@ const OrderCard = ({ order, handleCancelOrder }) => {
         { status: newStatus }
       );
       console.log(response);
-      if (response.status === 200) setStatus(newStatus);
+      if (response.status === 200) {
+        setStatus(newStatus);
+        await Toast.fire({
+          icon: "success",
+          title: `${response.data.status}`,
+          background: "#10B981",
+          color: "#fff",
+        });
+      }
     } catch (error) {
       console.log(error);
     }

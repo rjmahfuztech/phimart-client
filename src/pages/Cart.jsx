@@ -3,6 +3,7 @@ import useCartContext from "../hooks/useCartContext";
 import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
 import authApiClient from "../services/auth-api-client";
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const {
@@ -54,26 +55,46 @@ const Cart = () => {
   };
 
   // delete cart item
-  const handleDeleteCartItem = async (itemId) => {
-    setLocalCart((prevLocalCart) => {
-      const updatedItems = prevLocalCart.items.filter(
-        (item) => item.id !== itemId
-      );
+  const handleDeleteCartItem = (itemId) => {
+    // success alert
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLocalCart((prevLocalCart) => {
+          const updatedItems = prevLocalCart.items.filter(
+            (item) => item.id !== itemId
+          );
 
-      return {
-        ...prevLocalCart,
-        items: updatedItems,
-        total_price: updatedItems.reduce(
-          (sum, item) => sum + item.total_price,
-          0
-        ),
-      };
+          return {
+            ...prevLocalCart,
+            items: updatedItems,
+            total_price: updatedItems.reduce(
+              (sum, item) => sum + item.total_price,
+              0
+            ),
+          };
+        });
+        try {
+          const response = await DeleteCartItems(itemId);
+          if (response.success) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been successfully deleted.",
+              icon: "success",
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     });
-    try {
-      await DeleteCartItems(itemId);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // Checkout cart to order
@@ -89,10 +110,14 @@ const Cart = () => {
 
           return { ...prevLocalCart, items: deleteAllItems };
         });
+        Swal.fire({
+          title: "Checkout Complete",
+          text: "Your order has been successfully placed. Thank you!",
+          icon: "success",
+        });
+        // delete cart after checkout the cart
+        localStorage.removeItem("cartId");
       }
-      // delete cart after checkout the cart
-      localStorage.removeItem("cartId");
-      alert("Successful");
     } catch (error) {
       console.log(error);
     }
