@@ -10,9 +10,13 @@ import {
 import { RiShoppingCartLine } from "react-icons/ri";
 import { VscListUnordered } from "react-icons/vsc";
 import { Link } from "react-router";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const Sidebar = ({ openSidebar }) => {
-  const menuItems = [
+  const { user } = useAuthContext();
+
+  // Admin Menu
+  const adminMenus = [
     { to: "/dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
     { to: "/products", icon: FiPackage, label: "Products" },
     { to: "/products/add", icon: MdLibraryAdd, label: "Add Product" },
@@ -27,6 +31,16 @@ const Sidebar = ({ openSidebar }) => {
     { to: "/reviews", icon: MdReviews, label: "Reviews" },
     { to: "/users", icon: FaUsers, label: "Users" },
   ];
+
+  // User Menu
+  const userMenus = [
+    { to: "/dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
+    { to: "/dashboard/cart", icon: RiShoppingCartLine, label: "Cart" },
+    { to: "/dashboard/orders", icon: VscListUnordered, label: "Orders" },
+    { to: "/reviews", icon: MdReviews, label: "Reviews" },
+  ];
+
+  const menuItems = user.is_staff ? adminMenus : userMenus;
 
   return (
     <div className="drawer-side">

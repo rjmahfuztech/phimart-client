@@ -15,6 +15,23 @@ const Orders = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // Cancel Order
+  const handleCancelOrder = async (orderId) => {
+    try {
+      const response = await authApiClient.post(`/orders/${orderId}/cancel/`);
+      if (response.status == 200) {
+        // Update order status when cancel
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id == orderId ? { ...order, status: "Canceled" } : order
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!loading && orders.length == 0)
     return (
       <p className="text-center my-10 text-lg text-gray-400 font-semibold">
@@ -32,7 +49,11 @@ const Orders = () => {
           <h1 className="text-3xl font-bold my-6">Order Details</h1>
           <div>
             {orders.map((order) => (
-              <OrderCard key={order.id} order={order} />
+              <OrderCard
+                key={order.id}
+                order={order}
+                handleCancelOrder={handleCancelOrder}
+              />
             ))}
           </div>
         </div>

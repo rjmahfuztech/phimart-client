@@ -2,21 +2,39 @@ import React from "react";
 import OrderTable from "./OrderTable";
 import useAuthContext from "../../hooks/useAuthContext";
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, handleCancelOrder }) => {
   const { user } = useAuthContext();
+
   return (
     <div className="shadow-lg rounded-lg bg-white border border-gray-100 my-6">
       <div className="md:flex justify-between rounded-lg p-3 md:p-6 bg-gray-300 gap-2">
         <div>
-          <h1 className="text-xl font-bold">faslkdfkl3423434</h1>
+          <h1 className="text-xl font-bold">Order #{order.id}</h1>
           <p className="text-gray-400">Date</p>
         </div>
         <div className="flex gap-2 items-center mt-2 md:mt-0">
-          <p className="bg-red-500 py-1 px-4 rounded-full text-white">
-            Not Paid
+          <p
+            className={`${
+              order.status == "Not Paid"
+                ? "bg-warning"
+                : `${
+                    order.status == "Canceled"
+                      ? "bg-red-500"
+                      : `${
+                          order.status == "Delivered" ? "bg-success" : "bg-info"
+                        }`
+                  }`
+            } py-1 px-4 rounded-full font-semibold text-white`}
+          >
+            {order.status}
           </p>
-          {order.status !== "Delivered" && (
-            <button className="btn btn-link text-lg">Cancel</button>
+          {order.status !== "Delivered" && order.status !== "Canceled" && (
+            <button
+              onClick={() => handleCancelOrder(order.id)}
+              className="btn btn-link text-lg"
+            >
+              Cancel
+            </button>
           )}
         </div>
       </div>
