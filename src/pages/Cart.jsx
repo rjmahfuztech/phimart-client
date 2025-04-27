@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useCartContext from "../hooks/useCartContext";
 import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
+import authApiClient from "../services/auth-api-client";
 
 const Cart = () => {
   const {
@@ -75,6 +76,28 @@ const Cart = () => {
     }
   };
 
+  // Checkout cart to order
+  const checkOutCart = async () => {
+    try {
+      const response = await authApiClient.post("/orders/", {
+        cart_id: cartId,
+      });
+      // Update cart after Proceed to Checkout
+      if (response.status == 201) {
+        setLocalCart((prevLocalCart) => {
+          const deleteAllItems = (prevLocalCart.items = []);
+
+          return { ...prevLocalCart, items: deleteAllItems };
+        });
+      }
+      // delete cart after checkout the cart
+      localStorage.removeItem("cartId");
+      alert("Successful");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (!localCart) return <p className="text-center">Loading...</p>;
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 px-4 my-4">
@@ -90,6 +113,8 @@ const Cart = () => {
           totalPrice={localCart.total_price}
           itemCount={localCart.items.length}
           cartId={cartId}
+          setLocalCart={setLocalCart}
+          checkOutCart={checkOutCart}
         />
       </div>
     </div>

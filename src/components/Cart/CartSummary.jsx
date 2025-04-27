@@ -1,23 +1,7 @@
-import authApiClient from "../../services/auth-api-client";
-
-const CartSummary = ({ totalPrice, itemCount, cartId }) => {
+const CartSummary = ({ totalPrice, itemCount, checkOutCart }) => {
   const shipping = itemCount == 0 || parseFloat(totalPrice) > 180 ? 0 : 15;
   const tax = parseFloat(totalPrice) * 0.05;
   const calculateTotal = parseFloat(totalPrice) + shipping + tax;
-
-  // Checkout cart to order
-  const createOrder = async () => {
-    try {
-      await authApiClient.post("/orders/", {
-        cart_id: cartId,
-      });
-      // delete cart after checkout the cart
-      localStorage.removeItem("cartId");
-      alert("Successful");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="shadow-sm px-4 py-6 border border-gray-100 bg-base-100 rounded-lg mt-4 md:mt-0">
@@ -42,7 +26,7 @@ const CartSummary = ({ totalPrice, itemCount, cartId }) => {
       </div>
       <button
         disabled={itemCount == 0}
-        onClick={createOrder}
+        onClick={checkOutCart}
         className="btn btn-primary w-full mt-2"
       >
         Proceed To Checkout
