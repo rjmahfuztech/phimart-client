@@ -7,6 +7,7 @@ import { Toast } from "../SuccessAlert";
 const OrderCard = ({ order, handleCancelOrder }) => {
   const { user } = useAuthContext();
   const [status, setStatus] = useState(order.status);
+  const [loading, setLoading] = useState(false);
 
   const handleChangeStatus = async (event) => {
     const newStatus = event.target.value;
@@ -24,6 +25,23 @@ const OrderCard = ({ order, handleCancelOrder }) => {
           background: "#10B981",
           color: "#fff",
         });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      const response = await authApiClient.post("/payment/initiate/", {
+        amount: order.total_price,
+        orderId: order.id,
+        numItems: order.items?.length,
+      });
+      if (response.data.payment_url) {
+        setLoading(false);
+        window.location.href = response.data.payment_url;
       }
     } catch (error) {
       console.log(error);
@@ -116,12 +134,19 @@ const OrderCard = ({ order, handleCancelOrder }) => {
               <h2 className="text-lg">Total:</h2>
               <span className="text-lg">${order.total_price}</span>
             </div>
-            {!user.is_staff && order.status == "Not Paid" && (
+            {!user.is_staff && (
               <button
-                disabled={order.status == "Paid"}
+                onClick={handlePayment}
+                disabled={
+                  loading ||
+                  order.status !== "Not Paid" ||
+                  order.status == "Canceled"
+                }
                 className="btn btn-primary w-full mt-3"
               >
-                {order.status == "Paid" ? "Paid" : "Pay Now"}
+                {order.status !== "Not Paid" && order.status !== "Canceled"
+                  ? "Paid"
+                  : `${loading ? "Processing..." : "Pay Now"}`}
               </button>
             )}
           </div>

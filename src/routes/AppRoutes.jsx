@@ -16,6 +16,7 @@ import ResetPasswordConfirm from "../components/Authentication/ResetPasswordConf
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Orders from "../pages/Orders";
+import PaymentSuccess from "../components/PaymentSuccess";
 
 const AppRoutes = () => {
   return (
@@ -49,6 +50,14 @@ const AppRoutes = () => {
         <Route path="cart" element={<Cart />} />
         <Route path="orders" element={<Orders />} />
       </Route>
+      <Route
+        path="payment/:status"
+        element={
+          <PrivateRoute>
+            <PaymentSuccess />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
