@@ -19,7 +19,7 @@ const Sidebar = ({ openSidebar }) => {
   const adminMenus = [
     { to: "/dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
     { to: "/products", icon: FiPackage, label: "Products" },
-    { to: "/products/add", icon: MdLibraryAdd, label: "Add Product" },
+    { to: "/dashboard/product/add", icon: MdLibraryAdd, label: "Add Product" },
     { to: "/categories", icon: MdCategory, label: "Categories" },
     {
       to: "/categories/add",
