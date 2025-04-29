@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import Swal from "sweetalert2";
 import { Toast } from "../components/SuccessAlert";
+import handleApiError from "../components/HandleApiError";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -12,25 +13,6 @@ const useAuth = () => {
     const token = localStorage.getItem("authTokens");
     return token ? JSON.parse(token) : null;
   });
-
-  // Handle API Error
-  const handleApiError = (
-    error,
-    defaultMessage = "Something Went Wrong, Try again!"
-  ) => {
-    let ifError = "";
-    if (error.response && error.response.data) {
-      const errorMessage = Object.values(error.response.data).flat().join("\n");
-      ifError = errorMessage;
-    } else ifError = defaultMessage;
-    if (ifError) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${ifError} try again!`,
-      });
-    }
-  };
 
   // Fetch User Profile
   const fetchUserProfile = async () => {
