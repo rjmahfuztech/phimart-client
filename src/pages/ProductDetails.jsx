@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductImageGallery from "../components/ProductDetails/ProductImageGallery";
 import AddToCartButton from "../components/ProductDetails/AddToCartButton";
 import { Link, useParams } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import apiClient from "../services/api-client";
+import ReviewSection from "../components/Reviews/ReviewSection";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState(null);
@@ -52,6 +53,8 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      {/* Reviews  */}
+      <ReviewSection />
     </div>
   );
 };
