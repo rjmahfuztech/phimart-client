@@ -3,7 +3,7 @@ import ReviewForm from "./ReviewForm";
 import authApiClient from "../../services/auth-api-client";
 import { useParams } from "react-router";
 import Swal from "sweetalert2";
-import handleApiError from "../HandleApiError";
+import handleApiError from "../handleApiError";
 import ReviewList from "./ReviewList";
 import apiClient from "../../services/api-client";
 import { useForm } from "react-hook-form";

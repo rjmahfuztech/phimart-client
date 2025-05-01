@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import authApiClient from "../services/auth-api-client";
 import apiClient from "../services/api-client";
 import Swal from "sweetalert2";
-import handleApiError from "../components/HandleApiError";
+import handleApiError from "../components/handleApiError";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
