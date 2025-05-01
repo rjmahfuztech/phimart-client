@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import authApiClient from "../services/auth-api-client";
 import Swal from "sweetalert2";
 
@@ -30,6 +30,7 @@ const useCart = () => {
           quantity,
         });
         if (response.status === 201) {
+          createOrGetCart();
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -72,13 +73,6 @@ const useCart = () => {
     },
     [cartId]
   );
-
-  useEffect(() => {
-    const initializeCart = async () => {
-      await createOrGetCart();
-    };
-    initializeCart();
-  }, [createOrGetCart]);
 
   return {
     createOrGetCart,

@@ -5,11 +5,13 @@ import { Link, useParams } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import apiClient from "../services/api-client";
 import ReviewSection from "../components/Reviews/ReviewSection";
+import useCartContext from "../hooks/useCartContext";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const { productId } = useParams();
+  const { createOrGetCart } = useCartContext();
 
   useEffect(() => {
     setLoading(true);
@@ -19,6 +21,11 @@ const ProductDetails = () => {
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   }, [productId]);
+
+  // Render page in every visit
+  useEffect(() => {
+    createOrGetCart();
+  }, []);
 
   if (loading) return <p className="text-lg mt-5 text-center">Loading...</p>;
   if (!product) return <p className="text-center mt-5">Product not found!</p>;
