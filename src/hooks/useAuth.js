@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import Swal from "sweetalert2";
 import { Toast } from "../components/SuccessAlert";
-import handleApiError from "../components/HandleApiError";
+import handleApiError from "../components/handleApiError";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
