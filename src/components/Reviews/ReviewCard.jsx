@@ -11,6 +11,7 @@ const ReviewCard = ({
   isEditing,
   setEditingId,
   handleUpdateReview,
+  handleDeleteReview,
 }) => {
   return (
     <div className="shadow-md hover:shadow-lg transition-shadow border border-gray-200 rounded-lg p-4 md:p-6 my-4">
@@ -28,6 +29,7 @@ const ReviewCard = ({
             size={22}
           />
           <MdDelete
+            onClick={() => handleDeleteReview(review.id)}
             className="text-red-500 hover:text-red-700 transition-colors cursor-pointer"
             size={28}
           />

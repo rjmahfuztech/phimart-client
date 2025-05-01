@@ -98,6 +98,26 @@ const ReviewSection = () => {
     }
   };
 
+  // Handle Delete Review
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      const response = await authApiClient.delete(
+        `/products/${productId}/reviews/${reviewId}/`
+      );
+      if (response.status == 204) {
+        Swal.fire({
+          icon: "success",
+          title: "Review Deleted",
+          text: "Your review successfully Deleted.",
+        });
+        // reload reviews
+        productReviews();
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   return (
     <div>
       <div className="border-b-2 border-gray-300 pb-3 mt-6 flex gap-2 justify-between items-center">
@@ -133,6 +153,7 @@ const ReviewSection = () => {
           editingId={editingId}
           setEditingId={setEditingId}
           handleUpdateReview={handleUpdateReview}
+          handleDeleteReview={handleDeleteReview}
         />
       )}
     </div>

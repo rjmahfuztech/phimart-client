@@ -9,6 +9,7 @@ const ReviewList = ({
   editingId,
   setEditingId,
   handleUpdateReview,
+  handleDeleteReview,
 }) => {
   return (
     <div>
@@ -22,6 +23,7 @@ const ReviewList = ({
           isEditing={editingId == review.id}
           setEditingId={setEditingId}
           handleUpdateReview={handleUpdateReview}
+          handleDeleteReview={handleDeleteReview}
         />
       ))}
     </div>
