@@ -8,6 +8,7 @@ import ReviewList from "./ReviewList";
 import apiClient from "../../services/api-client";
 import { useForm } from "react-hook-form";
 import reviewImg from "../../assets/images/rating.jpeg";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const ReviewSection = () => {
   const { productId } = useParams();
@@ -15,6 +16,9 @@ const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
   const { reset } = useForm();
   const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext();
+  const [editReview, setEditReview] = useState({ ratings: 0, comment: "" });
+  const [editingId, setEditingId] = useState(null);
 
   // Fetch Product Reviews
   const productReviews = async () => {
@@ -67,6 +71,33 @@ const ReviewSection = () => {
     productReviews();
   }, [productId]);
 
+  // Handle Update Review
+  const handleUpdateReview = async () => {
+    // checking if comment is empty
+    if (!editReview.comment.trim())
+      return handleApiError("Please write a review before submitting.");
+
+    const reviewId = editingId;
+    try {
+      const response = await authApiClient.put(
+        `/products/${productId}/reviews/${reviewId}/`,
+        editReview
+      );
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Review Updated",
+          text: "Your review successfully updated.",
+        });
+        setEditingId(null);
+        // reload reviews
+        productReviews();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className="border-b-2 border-gray-300 pb-3 mt-6 flex gap-2 justify-between items-center">
@@ -94,7 +125,15 @@ const ReviewSection = () => {
           <span className="loading loading-spinner loading-xl text-secondary"></span>
         </div>
       ) : (
-        <ReviewList reviews={reviews} />
+        <ReviewList
+          reviews={reviews}
+          user={user}
+          editReview={editReview}
+          setEditReview={setEditReview}
+          editingId={editingId}
+          setEditingId={setEditingId}
+          handleUpdateReview={handleUpdateReview}
+        />
       )}
     </div>
   );
