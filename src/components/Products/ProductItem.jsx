@@ -3,7 +3,7 @@ import defaultImg from "../../assets/default-img.jpeg";
 
 const ProductItem = ({ product }) => {
   return (
-    <div className="card bg-base-100 w-full h-[400px] lg:h-[500px] mx-auto shadow-sm">
+    <div className="card bg-base-100 w-full h-[400px] lg:h-[500px] mx-auto shadow-sm border border-slate-100">
       <figure className="h-80 p-5 mt-5">
         <img
           src={product.images.length > 0 ? product.images[0].image : defaultImg}

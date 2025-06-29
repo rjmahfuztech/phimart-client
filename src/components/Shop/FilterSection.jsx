@@ -11,11 +11,11 @@ const FilterSection = ({
 }) => {
   return (
     <section>
-      <h1 className="text-2xl md:text-4xl font-semibold mt-6">
+      <h1 className="text-2xl md:text-4xl font-semibold mt-24">
         Shop Our Products
       </h1>
       <div className="my-4 grid grid-cols sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="shadow rounded-lg p-5">
+        <div className="shadow rounded-lg p-5 border border-slate-100">
           <div>
             <div className="mb-1">
               <label htmlFor="price" className="text-md font-semibold">
@@ -67,7 +67,7 @@ const FilterSection = ({
             <h4 className="text-md">${priceRange[1]}</h4>
           </div>
         </div>
-        <div className="shadow rounded-lg p-5">
+        <div className="shadow rounded-lg p-5 border border-slate-100">
           <div className="mb-1">
             <label htmlFor="category" className="text-md font-semibold">
               Category:
@@ -87,7 +87,7 @@ const FilterSection = ({
             ))}
           </select>
         </div>
-        <div className="shadow rounded-lg p-5">
+        <div className="shadow rounded-lg p-5 border border-slate-100">
           <div className="mb-1">
             <label htmlFor="search" className="text-md font-semibold">
               Search:
@@ -102,7 +102,7 @@ const FilterSection = ({
             className="input input-secondary p-2 rounded-lg w-full"
           />
         </div>
-        <div className="shadow rounded-lg p-5">
+        <div className="shadow rounded-lg p-5 border border-slate-100">
           <div className="mb-1">
             <label htmlFor="sort-by" className="text-md font-semibold">
               Sort By Price:
