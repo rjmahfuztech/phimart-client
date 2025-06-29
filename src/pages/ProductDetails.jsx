@@ -31,7 +31,7 @@ const ProductDetails = () => {
   if (!product) return <p className="text-center mt-5">Product not found!</p>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 my-10">
+    <div className="max-w-7xl mx-auto px-4 mt-28 mb-10">
       <Link
         to="/shop"
         className="font-semibold flex items-center gap-2 hover:text-gray-600 hover:-ml-1 transition-all"
