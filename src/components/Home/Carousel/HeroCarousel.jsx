@@ -31,7 +31,7 @@ const HeroCarousel = () => {
 
   return (
     <div
-      className="lg:px-20 bg-cover bg-center"
+      className="lg:px-20 bg-cover bg-center h-screen pt-20"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
       <Swiper
