@@ -25,7 +25,7 @@ const Product = () => {
   }, []);
 
   return (
-    <div className="section bg-gray-50 py-16 px-3">
+    <div className="section bg-gray-50 pt-20 pb-24 md:pb-28 px-3">
       <div className="max-w-5/6 mx-auto">
         <div className="flex flex-col sm:flex-row justify-between mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-center sm:text-start mb-2 sm:mb-0">
@@ -46,7 +46,7 @@ const Product = () => {
 
         {!isLoading && !error && products.length > 0 && (
           <Swiper
-            spaceBetween={10}
+            spaceBetween={30}
             autoplay={{
               delay: 6000,
               disableOnInteraction: false,
